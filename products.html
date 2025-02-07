@@ -1,61 +1,191 @@
-
 <!DOCTYPE html>
 <html lang="th">
 <head>
+  
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=1024, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>หน้าสินค้า</title>
     <link rel="stylesheet" href="styles.css">
-    <script>
-        // เช็กสถานะการล็อกอิน
-        const isLoggedIn = false; // เปลี่ยนเป็น true หากผู้ใช้ล็อกอินแล้ว
+  <script>
+  
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 
-        // ถ้าผู้ใช้ไม่ได้ล็อกอิน ให้เปลี่ยนเส้นทางไปหน้าล็อกอิน
-        if (!isLoggedIn) {
-            alert("กรุณาเข้าสู่ระบบก่อนเข้าถึงหน้านี้");
-            window.location.href = "login.html";
+const auth = getAuth();
+
+onAuthStateChanged(auth, (user) => {
+    if (!user) {
+        // ถ้ายังไม่ได้ล็อกอิน ให้เปลี่ยนไปที่หน้าล็อกอิน
+        window.location.href = "login.html";
+=
+    <script>
+        function buyProduct(productName) {
+            alert("คุณเลือกซื้อสินค้า: " + productName);
+        }
+        // ป้องกันการซูมด้วย Ctrl + Scroll
+        document.addEventListener("wheel", function(event){
+            if (event.ctrlKey) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+
+        // ป้องกันการซูมด้วย Gesture บนมือถือ
+        document.addEventListener("gesturestart", function(event) {
+            event.preventDefault();
+        });
+
+        // ป้องกันการเปลี่ยนขนาดหน้าต่าง
+        window.onresize = function() {
+            window.resizeTo(1024, 768);
+        };
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+    
+        /* สไตล์ปุ่มสามขีด */
+        .menu-button {
+            font-size: 30px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 15px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+    
+        /* แถบเมนู */
+        .menu {
+            position: fixed;
+            top: 0;
+            left: -250px; /* ซ่อนเมนูไว้ก่อน */
+            width: 250px;
+            height: 100%;
+            background: #333;
+            padding-top: 60px;
+            transition: 0.3s;
+        }
+    
+        /* ปุ่มปิดเมนู */
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 30px;
+            color: white;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+    
+        /* ลิงก์ในเมนู */
+        .menu a {
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            text-align: center;
+        }
+    
+        .menu a:hover {
+            background: #575757;
+        }
+    </style>
+    <script>
+        function openMenu() {
+            document.getElementById("menu").style.left = "0";
+        }
+    
+        function closeMenu() {
+            document.getElementById("menu").style.left = "-250px";
         }
     </script>
+    </head>
+    <body>
+    
+    <!-- ปุ่มสามขีด -->
+    <button class="menu-button" onclick="openMenu()">☰</button>
+    
+    <!-- เมนู<--></-->
+    <div class="menu" id="menu">
+        <button class="close-button" onclick="closeMenu()">×</button>
+        <div class="search-container">
+  <input type="text" id="searchInput" placeholder="ค้นหาสินค้า..." onkeyup="searchProducts()">
+</div>
+        
+        <a href="cart.html">🛒 ตะกร้า (<span id="cartCount">0</span>)</a>
+        <a href="#" onclick="logout()">🚪 ออกจากระบบ</a>
+    </div>
+    
 </head>
 <body>
     <header class="main-header">
-        <h1>รายการสินค้า</h1>
+        <div class="header-content">
+            <h2>สินค้า</h2>
+        </div>
+        
     </header>
 
-    <main>
-        <div id="product-list" class="product-container">
-            <!-- สินค้าจะถูกเพิ่มแบบไดนามิกผ่าน JavaScript -->
-        </div>
+  <main>
+        <section class="product-list">
+            <div class="product-card">
+                <img src="logo.png/LINE_ALBUM_image_250129_1.jpg" alt="GEN9 STORY">
+                <h2>GEN9 STORY</h2>
+                <p>รายละเอียดสินค้า</p>
+                <p><strong>ราคา: 990 บาท</strong></p>
+                <button onclick="addToCart('GEN9 STORY', 'logo.png/LINE_ALBUM_image_250129_1.jpg', 990)">เพิ่มลงตะกร้า</button>
+            </div>
+
+            <div class="product-card">
+                <img src="logo.png/LINE_ALBUM_image_250129_2.jpg" alt="GEN10 STYLE">
+                <h2>GEN10 STYLE</h2>
+                <p>รายละเอียดสินค้า</p>
+                <p><strong>ราคา: 1,290 บาท</strong></p>
+                <button onclick="addToCart('GEN10 STYLE', 'logo.png/LINE_ALBUM_image_250129_2.jpg', 1290)">เพิ่มลงตะกร้า</button>
+            </div>
+
+            <div class="product-card">
+                <img src="logo.png/LINE_ALBUM_image_250129_3.jpg" alt="GEN11 TREND">
+                <h2>GEN11 TREND</h2>
+                <p>รายละเอียดสินค้า</p>
+                <p><strong>ราคา: 1,590 บาท</strong></p>
+                <button onclick="addToCart('GEN11 TREND', 'logo.png/LINE_ALBUM_image_250129_3.jpg', 1590)">เพิ่มลงตะกร้า</button>
+            </div>
+
+            <div class="product-card">
+                <img src="logo.png/LINE_ALBUM_image_250129_4.jpg" alt="GEN13 CLASSIC">
+                <h2>GEN13 CLASSIC</h2>
+                <p>รายละเอียดสินค้า</p>
+                <p><strong>ราคา: 1,990 บาท</strong></p>
+                <button onclick="addToCart('GEN13 CLASSIC', 'logo.png/LINE_ALBUM_image_250129_4.jpg', 1990)">เพิ่มลงตะกร้า</button>
+            </div>
+        </section>
+      
     </main>
+        <script>
+          function searchProducts() {
+  const input = document.getElementById("searchInput").value.toLowerCase();
+  const products = document.querySelectorAll(".product-card");
 
-    <footer>
-        <p>Copyright © 2025 SBTC. All Rights Reserved.</p>
-    </footer>
+  products.forEach(product => {
+    const productName = product.querySelector("h2").textContent.toLowerCase();
+    const productDescription = product.querySelector("p").textContent.toLowerCase();
 
-    <script>
-        // ดึงข้อมูลสินค้าจาก Backend
-        fetch('/products')
-            .then(response => response.json())
-            .then(products => {
-                const productList = document.getElementById('product-list');
-                products.forEach(product => {
-                    const productDiv = document.createElement('div');
-                    productDiv.classList.add('product-item');
-                    productDiv.innerHTML = `
-                        <h2>${product.name}</h2>
-                        <p>${product.description}</p>
-                        <p><strong>ราคา: </strong>${product.price} บาท</p>
-                        <button onclick="viewDetails(${product.id})">ดูรายละเอียด</button>
-                    `;
-                    productList.appendChild(productDiv);
-                });
-            })
-            .catch(error => console.error('Error fetching products:', error));
+    if (input === "" || productName.includes(input) || productDescription.includes(input)) {
+      product.style.display = "flex"; // ใช้ flex เพื่อรักษาการจัดเรียง
+    } else {
+      product.style.display = "none";
+    }
+  });
+}
+        </script>
+  <script src="js/cart.js" defer></script>  
+    <script src="js/cuth.js" ></script>  
 
-        // ฟังก์ชันเปิดหน้ารายละเอียดสินค้า
-        function viewDetails(productId) {
-            window.location.href = `product-detail.html?id=${productId}`;
-        }
-    </script>
 </body>
 </html>
